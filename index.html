@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unlimited Sigma Notation Problems</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+        margin: 0;
+        padding: 20px;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+      }
+      .problem,
+      .answer {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 20px 0;
+      }
+      .answer {
+        background: #eef;
+        display: none;
+      }
+      button {
+        padding: 8px 12px;
+        margin: 5px;
+        font-size: 1em;
+        cursor: pointer;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+    <script>
+      // Global variable to hold the current answer
+      let currentAnswer = "";
+      
+      function generateProblem() {
+        // Hide previous answer and clear its content
+        const answerDiv = document.getElementById("answer");
+        answerDiv.style.display = "none";
+        answerDiv.innerHTML = "";
+        
+        let problemText = "";
+        let answer = 0;
+        
+        // Randomly choose a problem type (0 to 3)
+        const type = Math.floor(Math.random() * 4);
+        
+        if (type === 0) {
+          // Type 0: Arithmetic Sigma Notation
+          // ∑ₖ₌₁ᴺ (A*k + B)
+          const N = Math.floor(Math.random() * 41) + 10; // N between 10 and 50
+          const A = Math.floor(Math.random() * 10) + 1;    // A between 1 and 10
+          const B = Math.floor(Math.random() * 10) + 1;    // B between 1 and 10
+          problemText =
+            "Evaluate the sum: &Sigma;<sub>k=1</sub><sup>" +
+            N +
+            "</sup> (" +
+            A +
+            "k + " +
+            B +
+            ")";
+          // Sum = A*(1+2+...+N) + B*N = A*(N*(N+1)/2) + B*N
+          answer = A * (N * (N + 1) / 2) + B * N;
+          
+        } else if (type === 1) {
+          // Type 1: Geometric Sigma Notation
+          // ∑ₙ₌₀ᴺ rⁿ
+          const N = Math.floor(Math.random() * 6) + 5;   // N between 5 and 10
+          const r = Math.floor(Math.random() * 4) + 2;     // r between 2 and 5
+          problemText =
+            "Evaluate the sum: &Sigma;<sub>n=0</sub><sup>" +
+            N +
+            "</sup> " +
+            r +
+            "<sup>n</sup>";
+          // Sum = (r^(N+1) - 1)/(r - 1)
+          answer = (Math.pow(r, N + 1) - 1) / (r - 1);
+          // Round to 3 decimal places if needed
+          answer = Math.round(answer * 1000) / 1000;
+          
+        } else if (type === 2) {
+          // Type 2: Sum of Squares
+          // ∑ₙ₌₁ᴺ n²
+          const N = Math.floor(Math.random() * 16) + 5;  // N between 5 and 20
+          problemText =
+            "Evaluate the sum: &Sigma;<sub>n=1</sub><sup>" +
+            N +
+            "</sup> n<sup>2</sup>";
+          // Sum = N(N+1)(2N+1)/6
+          answer = (N * (N + 1) * (2 * N + 1)) / 6;
+          
+        } else if (type === 3) {
+          // Type 3: Quadratic Sigma Notation
+          // ∑ₙ₌₁ᴺ (a*n² + b*n + c)
+          const N = Math.floor(Math.random() * 16) + 5;  // N between 5 and 20
+          const a = Math.floor(Math.random() * 5) + 1;     // a between 1 and 5
+          const b = Math.floor(Math.random() * 5) + 1;     // b between 1 and 5
+          const c = Math.floor(Math.random() * 5) + 1;     // c between 1 and 5
+          problemText =
+            "Evaluate the sum: &Sigma;<sub>n=1</sub><sup>" +
+            N +
+            "</sup> (" +
+            a +
+            "n<sup>2</sup> + " +
+            b +
+            "n + " +
+            c +
+            ")";
+          // Sum = a*(sum of n²) + b*(sum of n) + c*N
+          // Sum of n² = N(N+1)(2N+1)/6, sum of n = N(N+1)/2, and sum of 1 = N.
+          answer =
+            a * (N * (N + 1) * (2 * N + 1) / 6) +
+            b * (N * (N + 1) / 2) +
+            c * N;
+        }
+        
+        // Update the problem div with the generated problem text
+        document.getElementById("problem").innerHTML = problemText;
+        // Store the answer for later display
+        currentAnswer = answer;
+      }
+      
+      function toggleAnswer() {
+        const answerDiv = document.getElementById("answer");
+        if (answerDiv.style.display === "none" || answerDiv.style.display === "") {
+          answerDiv.innerHTML = "<strong>Answer:</strong> " + currentAnswer;
+          answerDiv.style.display = "block";
+        } else {
+          answerDiv.style.display = "none";
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Unlimited Sigma Notation Problems</h1>
+      <div style="text-align: center;">
+        <button onclick="generateProblem()">Generate New Problem</button>
+        <button onclick="toggleAnswer()">Show/Hide Answer</button>
+      </div>
+      <div id="problem" class="problem" style="text-align: center;">
+        Click "Generate New Problem" to get started!
+      </div>
+      <div id="answer" class="answer" style="text-align: center;"></div>
+    </div>
+  </body>
+</html>
